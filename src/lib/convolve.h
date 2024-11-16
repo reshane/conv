@@ -16,46 +16,114 @@
 #include <stdint.h>
 #endif
 
+#ifndef NO_STRING
+#include <string.h>
+#endif
+
 // convolution
 
-// vector
+// int vector
 
 typedef struct {
     size_t size;
     size_t capacity;
     int* data;
-} Vector;
+} Vector_i;
 
-Vector* Vector_new();
+Vector_i* Vector_i_new();
 
-size_t Vector_size(Vector* v);
+size_t Vector_i_size(Vector_i* v);
 
-void Vector_push(Vector* v, int e);
+void Vector_i_push(Vector_i* v, int e);
 
-int Vector_get(Vector* v, size_t idx);
+int Vector_i_get(Vector_i* v, size_t idx);
 
-void Vector_free(Vector* v);
+void Vector_i_free(Vector_i* v);
 
-Vector* Vector_convolve(Vector* a, Vector* b);
+Vector_i* Vector_i_convolve(Vector_i* a, Vector_i* b);
 
-// matrix
+// float vector
 
+typedef struct {
+    size_t size;
+    size_t capacity;
+    float* data;
+} Vector_f;
+
+Vector_f* Vector_f_new();
+
+size_t Vector_f_size(Vector_f* v);
+
+void Vector_f_push(Vector_f* v, float e);
+
+float Vector_f_get(Vector_f* v, size_t idx);
+
+void Vector_f_free(Vector_f* v);
+
+Vector_f* Vector_f_convolve(Vector_f* a, Vector_f* b);
+
+// int matrix
 typedef struct {
     size_t rows;
     size_t cols;
     int* data;
-} Matrix;
+} Matrix_i;
 
-Matrix* Matrix_new(size_t rows, size_t cols);
+Matrix_i* Matrix_i_new(size_t rows, size_t cols);
 
-size_t Matrix_rows(Matrix* m);
+size_t Matrix_i_rows(Matrix_i* m);
 
-size_t Matrix_cols(Matrix* m);
+size_t Matrix_i_cols(Matrix_i* m);
 
-void Matrix_set(Matrix* m, size_t x, size_t y, int e);
+void Matrix_i_set(Matrix_i* m, size_t x, size_t y, int e);
 
-int Matrix_get(Matrix* m, size_t x, size_t y);
+int Matrix_i_get(Matrix_i* m, size_t x, size_t y);
 
-void Matrix_free(Matrix* m);
+void Matrix_i_free(Matrix_i* m);
 
-Matrix* Matrix_convolve(Matrix* a, Matrix* b);
+Matrix_i* Matrix_i_convolve(Matrix_i* a, Matrix_i* b);
+
+// uint32_t matrix
+typedef struct {
+    size_t rows;
+    size_t cols;
+    uint32_t* data;
+} Matrix_u32;
+
+Matrix_u32* Matrix_u32_new(size_t rows, size_t cols);
+
+size_t Matrix_u32_rows(Matrix_u32* m);
+
+size_t Matrix_u32_cols(Matrix_u32* m);
+
+void Matrix_u32_set(Matrix_u32* m, size_t x, size_t y, uint32_t e);
+
+uint32_t Matrix_u32_get(Matrix_u32* m, size_t x, size_t y);
+
+void Matrix_u32_free(Matrix_u32* m);
+
+Matrix_u32* Matrix_u32_convolve(Matrix_u32* a, Matrix_u32* b);
+
+// float matrix
+typedef struct {
+    size_t rows;
+    size_t cols;
+    float* data;
+} Matrix_f;
+
+Matrix_f* Matrix_f_new(size_t rows, size_t cols);
+
+size_t Matrix_f_rows(Matrix_f* m);
+
+size_t Matrix_f_cols(Matrix_f* m);
+
+void Matrix_f_set(Matrix_f* m, size_t x, size_t y, float e);
+
+float Matrix_f_get(Matrix_f* m, size_t x, size_t y);
+
+void Matrix_f_free(Matrix_f* m);
+
+Matrix_f* Matrix_f_convolve(Matrix_f* a, Matrix_f* b);
+
+// cross-type convolution
+Matrix_u32* Matrix_u32_f_convolve(Matrix_u32* a, Matrix_f* b);
