@@ -15,18 +15,25 @@ int failed = 0;
     printf("\033[0;32mPASS: %s\n\033[0m", #expr); \
 }
 #define ASSERT_STR_EQ(str1, str2) ASSERT(strcmp(str1, str2) == 0)
+#define EPSILON 0.00001
+#define ASSERT_F_EQ(f1, f2) if ((f1-f2)<0) { \
+    ASSERT((f1-f2)>(-1*EPSILON)); \
+} else { \
+    ASSERT((f1-f2)<(EPSILON)); \
+}
 
 TEST(test_Vector_i) {
     Vector_i* my_vec = Vector_i_new();
     Vector_i_push(my_vec, 3);
-    ASSERT(Vector_i_get(my_vec, 3) == 0);
+    ASSERT(Vector_i_get(my_vec, 0) == 3);
     Vector_i_free(my_vec);
 }
 
 TEST(test_Vector_f) {
     Vector_f* my_vec = Vector_f_new();
     Vector_f_push(my_vec, 0.7);
-    ASSERT(Vector_f_get(my_vec, 0.7) == 0);
+    printf("%f\n", Vector_f_get(my_vec, 0));
+    ASSERT_F_EQ(Vector_f_get(my_vec, 0), 0.7);
     Vector_f_free(my_vec);
 }
 
@@ -40,13 +47,13 @@ TEST(test_Matrix_i) {
 TEST(test_Matrix_f) {
     Matrix_f* mat = Matrix_f_new(10, 10);
     Matrix_f_set(mat, 4, 4, 1.7);
-    ASSERT(Matrix_f_get(mat, 4, 4) == 1.7);
+    ASSERT_F_EQ(Matrix_f_get(mat, 4, 4), 1.7);
     Matrix_f_free(mat);
 }
 
 TEST(test_Matrix_u32) {
-    Matrix_u32* mat = Matrix_u32_new(10, 0xFF00FF18);
-    Matrix_u32_set(mat, 4, 4, 10);
+    Matrix_u32* mat = Matrix_u32_new(10, 10);
+    Matrix_u32_set(mat, 4, 4, 0xFF00FF18);
     ASSERT(Matrix_u32_get(mat, 4, 4) == 0xFF00FF18);
     Matrix_u32_free(mat);
 }
