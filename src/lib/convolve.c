@@ -313,7 +313,7 @@ Matrix_u32* Matrix_u32_convolve(Matrix_u32* a, Matrix_u32* b) {
                     }
                 }
             }
-            Matrix_u32_set(result,y,x, weighted_sum);
+            Matrix_u32_set(result,x,y, weighted_sum);
         }
     }
     return result;
@@ -424,7 +424,7 @@ Matrix_u32* Matrix_u32_f_convolve(Matrix_u32* a, Matrix_f* b) {
                     weighted_sum += ((uint8_t)(((pixel&0xFF0000)>>8*2) * c))<<8*2;
                 }
             }
-            Matrix_u32_set(result,y,x, weighted_sum);
+            Matrix_u32_set(result,x,y, weighted_sum);
         }
     }
     return result;

@@ -85,7 +85,8 @@ void tv_static(Matrix_u32* img) {
     for (int y=0; y<h; ++y) {
         for (int x=0; x<w; ++x) {
             uint32_t pixel = 0xFF000000;
-            if ((int)((rand()/(float)RAND_MAX) + 0.5)) {
+            //if ((int)((rand()/(float)RAND_MAX) + 0.5)) {
+            if ((x/10)%2==0) {
                 pixel = 0xFFFFFF;
             }
             Matrix_u32_set(img,x,y,pixel);
@@ -98,7 +99,7 @@ void flat_blur_matrix(Matrix_f* msk) {
     size_t msk_h = Matrix_f_rows(msk);
     for (int y=0; y<msk_h; ++y) {
         for (int x=0; x<msk_w; ++x) {
-            Matrix_f_set(msk,y,x,1.0/(msk_w*msk_h));
+            Matrix_f_set(msk,x,y,1.0/(msk_w*msk_h));
         }
     }
 }
@@ -128,13 +129,17 @@ void save_img_as_ppm(Matrix_u32* img, const char *file_path) {
 }
 
 void create_images() {
-    Matrix_u32* img = Matrix_u32_new(200, 200);
-    Matrix_f* msk = Matrix_f_new(4, 4);
+    Matrix_u32* img = Matrix_u32_new(500, 500);
+    Matrix_f* msk = Matrix_f_new(10, 10);
     tv_static(img);
     flat_blur_matrix(msk);
     save_img_as_ppm(img, "original.ppm");
     Matrix_u32* blr = Matrix_u32_f_convolve(img, msk);
     save_img_as_ppm(blr, "blurred.ppm");
+    Matrix_u32* blr1 = Matrix_u32_f_convolve(blr, msk);
+    save_img_as_ppm(blr1, "blurred1.ppm");
+    Matrix_u32* blr2 = Matrix_u32_f_convolve(blr1, msk);
+    save_img_as_ppm(blr2, "blurred2.ppm");
 }
 
 int main() {
